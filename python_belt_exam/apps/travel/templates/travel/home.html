@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Dashboard</title>
+
+    <style>
+        table,
+        th,
+        td {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Welcome, {{ request.session.username }}!</h2>
+        <a href="/logout">Logout</a><br><br><a href="/plan_form">Add Travel Plan</a>
+        <hr>
+    </div>
+
+    <div id="myTrips">
+
+
+
+        <body>
+            <h2>Your Travel Plans</h2>
+            <table style="width:800px" id="userSched">
+
+                <tr>
+                    <th>Destination</th>
+                    <th>Travel Start Date</th>
+                    <th>Travel End Date</th>
+                    <th>Plan</th>
+                </tr>
+
+                {% for trip in trips %}
+                {% if request.session.user_id == trip.planner_id %}
+
+                <tr>
+                    <td><a href="{% url 'view_trip' trip_id=trip.id %}">{{ trip.destination }}</a></td>
+                    <td>{{ trip.start_date }}</td>
+                    <td>{{ trip.end_date }}</td>
+                    <td>{{ trip.description }}</td>
+                </tr>
+                {% endif %}                
+                {% endfor %}
+
+                {% for trip in joined_trips %}
+                
+
+                <tr>
+                    <td><a href="{% url 'view_trip' trip_id=trip.id %}">{{ trip.destination }}</a></td>
+                    <td>{{ trip.start_date }}</td>
+                    <td>{{ trip.end_date }}</td>
+                    <td>{{ trip.description }}</td>
+                </tr>
+                               
+                {% endfor %}
+
+            </table>
+    </div>
+  
+    <br><br>
+  
+
+    <div id="otherTrips">
+
+
+        <body>
+            <h2>Other User's Travel Plans</h2>
+            <table style="width:1000px" id="otherSched">
+
+                <tr>
+                    <th>Name</th>
+                    <th>Destination</th>
+                    <th>Travel Start Date</th>
+                    <th>Travel End Date</th>
+                    <th>Join This Trip?</th>
+                </tr>
+
+                {% for trip in trips %}
+                {% if request.session.user_id != trip.planner_id %}
+                
+                <tr>
+                    <td>{{ trip.planner.username }}</td>
+                    <td><a href="{% url 'view_trip' trip_id=trip.id %}">{{ trip.destination }}</a></td>
+                    <td>{{ trip.start_date }}</td>
+                    <td>{{ trip.end_date }}</td>
+
+                    <td>
+                     {% if request.session.user_id != trip.traveler.user_id %}
+                   <a href="/join/{{trip.id}} ">Join</a>
+                    {% endif %}
+                    </td>  
+                </tr>
+                                          
+                {% endif %}                
+                {% endfor %}
+
+            </table>
+    </div>
+    </body>
+
+</html>

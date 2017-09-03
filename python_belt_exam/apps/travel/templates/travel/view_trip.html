@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Travel Destination</title>
+    </head>
+    <body>
+    <div class="container">
+        <h2><a href="/home">Home</a></h2>
+          <fieldset>
+            <legend><h1>{{ trip.destination }}</h1></legend>
+            <h3>Planner:</h3><p>{{ trip.planner.username }}</p>
+            <h3>Description:</h3><p>{{ trip.description }}</p>
+            <h3>From:</h3><p>{{ trip.start_date }}</p>
+            <h3>Till:</h3><p>{{ trip.end_date }}</p>
+          </fieldset>  
+<br><br>
+          <fieldset>
+            <legend><h2>Users Attending This Trip</h2></legend>
+            
+            {% for user in travelers %}
+            
+            <p>{{ user.username }}</p>
+
+                    
+            {% endfor %}
+          </fieldset>  
+    </div>
+    </body>
+</html>
